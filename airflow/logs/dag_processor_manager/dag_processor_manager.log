@@ -1,0 +1,22 @@
+[2025-01-31T16:54:24.744+0000] {manager.py:483} INFO - Processing files using up to 2 processes at a time 
+[2025-01-31T16:54:24.745+0000] {manager.py:484} INFO - Process each file at most once every 30 seconds
+[2025-01-31T16:54:24.747+0000] {manager.py:485} INFO - Checking for new files in /opt/airflow/dags every 300 seconds
+[2025-01-31T16:54:24.748+0000] {manager.py:821} INFO - Searching for files in /opt/airflow/dags
+[2025-01-31T16:54:24.755+0000] {manager.py:824} INFO - There are 0 files in /opt/airflow/dags
+[2025-01-31T16:59:24.765+0000] {manager.py:821} INFO - Searching for files in /opt/airflow/dags
+[2025-01-31T16:59:24.775+0000] {manager.py:824} INFO - There are 0 files in /opt/airflow/dags
+[2025-01-31T17:04:25.668+0000] {manager.py:821} INFO - Searching for files in /opt/airflow/dags
+[2025-01-31T17:04:25.676+0000] {manager.py:824} INFO - There are 0 files in /opt/airflow/dags
+[2025-01-31T17:09:26.526+0000] {manager.py:821} INFO - Searching for files in /opt/airflow/dags
+[2025-01-31T17:09:26.533+0000] {manager.py:824} INFO - There are 0 files in /opt/airflow/dags
+[2025-01-31T17:14:27.367+0000] {manager.py:821} INFO - Searching for files in /opt/airflow/dags
+[2025-01-31T17:14:27.397+0000] {manager.py:824} INFO - There are 1 files in /opt/airflow/dags
+[2025-01-31T17:14:32.438+0000] {manager.py:997} INFO - 
+================================================================================
+DAG File Processing Stats
+
+File Path                             PID    Runtime      # DAGs    # Errors  Last Runtime    Last Run               Last # of DB Queries
+------------------------------------  -----  ---------  --------  ----------  --------------  -------------------  ----------------------
+/opt/airflow/dags/batch_ingestion.py                           1           0  0.43s           2025-01-31T17:14:30                      45
+================================================================================
+[2025-01-31T17:14:34.042+0000] {manager.py:465} INFO - Exiting gracefully upon receiving signal 15
