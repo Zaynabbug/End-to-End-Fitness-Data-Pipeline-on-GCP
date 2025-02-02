@@ -2,6 +2,7 @@ import apache_beam as beam
 from apache_beam.options.pipeline_options import PipelineOptions
 import json
 from google.cloud import bigquery
+from datetime import datetime
 
 # Define project details
 PROJECT_ID = "fit-analytics-pipeline"  # Replace with your GCP Project ID
@@ -31,7 +32,7 @@ with beam.Pipeline(options=pipeline_options) as pipeline:
         | "Parse JSON" >> beam.Map(parse_pubsub_message)
         | "Write to BigQuery" >> beam.io.WriteToBigQuery(
             TABLE_ID,
-            schema="user_id:INTEGER, steps:INTEGER, heart_rate:INTEGER, calories_burned:FLOAT, timestamp:TIMESTAMP",
+            schema="user_id:INTEGER, steps:INTEGER, distance_km:FLOAT, heart_rate:INTEGER, calories_burned:FLOAT, activity_type:STRING, workout_duration_min:INTEGER, timestamp:TIMESTAMP",
             write_disposition=beam.io.BigQueryDisposition.WRITE_APPEND
         )
     )
