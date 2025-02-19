@@ -1,0 +1,34 @@
+# Terraform
+.terraform/
+*.tfstate
+*.tfstate.*
+.terraform.lock.hcl
+
+# Environment files
+.env
+gcp-env/
+
+# Logs
+logs/
+airflow/logs/
+fitness_dbt/logs/
+
+# dbt
+fitness_dbt/dbt_packages/
+fitness_dbt/target/
+
+# Airflow
+airflow/logs/
+
+# IDE-specific files
+.vscode/
+.idea/
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.db
+*.sqlite3
+
