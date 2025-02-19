@@ -1,5 +1,5 @@
-WITH raw_data AS (
-    SELECT 
+WITH cleaned_data AS (
+    SELECT
         user_id,
         steps,
         distance_km,
@@ -8,15 +8,27 @@ WITH raw_data AS (
         activity_type,
         workout_duration_min,
         TIMESTAMP(timestamp) AS event_time
-    FROM `fit-analytics-pipeline.fitness_data.fitness_metrics`
+    FROM {{ source('fitness_data', 'fitness_metrics') }}
+),
+enriched_data AS (
+    SELECT
+        user_id,
+        steps,
+        distance_km,
+        heart_rate,
+        calories_burned,
+        activity_type,
+        workout_duration_min,
+        event_time,
+        -- Add derived columns
+        CASE
+            WHEN heart_rate < 70 THEN 'low'
+            WHEN heart_rate BETWEEN 70 AND 120 THEN 'moderate'
+            WHEN heart_rate > 120 THEN 'high'
+        END AS intensity_level,
+        -- Add a column for calories burned per minute
+        ROUND(calories_burned / NULLIF(workout_duration_min, 0), 2) AS calories_per_minute
+    FROM cleaned_data
 )
-SELECT 
-    user_id,
-    AVG(steps) AS avg_steps,
-    AVG(distance_km) AS avg_distance_km,
-    AVG(heart_rate) AS avg_heart_rate,
-    SUM(calories_burned) AS total_calories,
-    AVG(workout_duration_min) AS avg_workout_duration,
-    DATE(event_time) AS activity_date
-FROM raw_data
-GROUP BY user_id, activity_date
+SELECT *
+FROM enriched_data

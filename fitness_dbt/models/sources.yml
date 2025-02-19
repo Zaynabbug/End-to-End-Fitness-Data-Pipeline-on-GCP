@@ -1,0 +1,8 @@
+version: 2
+
+sources:
+  - name: fitness_data
+    database: fit-analytics-pipeline  # Replace with your GCP project ID
+    schema: fitness_data  # Your dataset in BigQuery
+    tables:
+      - name: fitness_metrics  # Your raw fitness data table

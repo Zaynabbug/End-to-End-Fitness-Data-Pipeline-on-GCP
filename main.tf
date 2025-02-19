@@ -12,11 +12,20 @@ provider "google" {
   region  = "us-central1"
 }
 
+# Create Pub/Sub topic
 resource "google_pubsub_topic" "fitness_topic" {
   name = "fitness-topic"
 }
 
+# Create Pub/Sub subscription that writes to BigQuery
 resource "google_pubsub_subscription" "fitness_subscription" {
   name  = "fitness-subscription"
   topic = google_pubsub_topic.fitness_topic.id
+
+  bigquery_config {
+    table            = "fit-analytics-pipeline.fitness_data.fitness_metrics"
+    write_metadata   = false  # Avoids unnecessary metadata in BigQuery
+  }
+
+  ack_deadline_seconds = 60  # Default acknowledgment time
 }

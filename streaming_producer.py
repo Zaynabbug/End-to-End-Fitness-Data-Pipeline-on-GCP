@@ -1,8 +1,11 @@
-import time 
+import os
+import time
 import json
 import random
 from google.cloud import pubsub_v1
 from datetime import datetime
+
+os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = "C:/Users/zayna/.gcp/fit-analytics-pipeline-4263c3d629fe.json"
 
 # Set up Pub/Sub client
 project_id = "fit-analytics-pipeline"  # Replace with your GCP project ID
@@ -11,7 +14,7 @@ topic_id = "fitness-topic"
 publisher = pubsub_v1.PublisherClient()
 topic_path = publisher.topic_path(project_id, topic_id)
 
-# Function to generate random fitness data 
+# Function to generate random fitness data
 def generate_fitness_data():
     activity_type = random.choice(["walking", "running", "cycling"])
     steps = random.randint(1000, 20000)
@@ -38,7 +41,7 @@ def generate_fitness_data():
         "calories_burned": calories_burned,
         "activity_type": activity_type,
         "workout_duration_min": workout_duration_min,
-        "timestamp": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
+        "timestamp": datetime.now().strftime("%Y-%m-%dT%H:%M:%SZ"),
     }
 
 # Publish messages to Pub/Sub
@@ -48,7 +51,7 @@ def publish_messages():
         message_json = json.dumps(data).encode("utf-8")
         future = publisher.publish(topic_path, message_json)
         print(f"Published: {data}")
-        time.sleep(25)  # Simulate data every 5 seconds
+        time.sleep(25)  # Simulate data every 25 seconds
 
 if __name__ == "__main__":
     publish_messages()
