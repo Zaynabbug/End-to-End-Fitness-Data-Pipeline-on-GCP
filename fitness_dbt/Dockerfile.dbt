@@ -1,0 +1,20 @@
+FROM ghcr.io/dbt-labs/dbt-bigquery:latest
+
+# Set the working directory
+WORKDIR /dbt
+
+# Copy the dbt project files
+COPY dbt_project.yml .
+COPY models/ ./models/
+COPY macros/ ./macros/
+COPY seeds/ ./seeds/
+COPY snapshots/ ./snapshots/
+COPY tests/ ./tests/
+COPY analyses/ ./analyses/
+
+# Set environment variables for dbt
+ENV DBT_PROJECT_DIR=/dbt
+ENV DBT_PROFILES_DIR=/root/.dbt
+
+# Run dbt
+CMD ["dbt", "run"]

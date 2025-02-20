@@ -5,11 +5,11 @@ import random
 from google.cloud import pubsub_v1
 from datetime import datetime
 
-os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = "C:/Users/zayna/.gcp/fit-analytics-pipeline-4263c3d629fe.json"
+os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = os.getenv("GOOGLE_APPLICATION_CREDENTIALS")
 
 # Set up Pub/Sub client
-project_id = "fit-analytics-pipeline"  # Replace with your GCP project ID
-topic_id = "fitness-topic"
+project_id = os.getenv("GCP_PROJECT_ID")  
+topic_id = os.getenv("PUBSUB_TOPIC")  
 
 publisher = pubsub_v1.PublisherClient()
 topic_path = publisher.topic_path(project_id, topic_id)

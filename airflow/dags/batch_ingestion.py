@@ -9,7 +9,8 @@ from dotenv import load_dotenv
 import os
 
 load_dotenv()
-credentials_path = os.getenv("GOOGLE_APPLICATION_CREDENTIALS")
+os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = os.getenv("GOOGLE_APPLICATION_CREDENTIALS")
+
 
 # Define default arguments
 default_args = {
@@ -23,7 +24,7 @@ default_args = {
 # Define batch data generation function
 def generate_batch_data():
     data = []
-    for _ in range(100):  # Generate 100 records
+    for _ in range(100): 
         activity_type = random.choice(["walking", "running", "cycling"])
         steps = random.randint(1000, 20000)
         distance_km = round(steps * 0.0008, 2)  # Assuming 0.8m per step
@@ -80,9 +81,9 @@ with DAG(
         task_id="upload_to_gcs",
         src="/tmp/batch_fitness_data.json",
         dst="batch_data/batch_fitness_data.json",
-        bucket="fitness-data-bucket",  # Replace with your GCS bucket name
+        bucket="fitness-data-bucket",  
         mime_type="application/json",
-        gcp_conn_id="google_cloud_default",  # Explicitly use the connection
+        gcp_conn_id="google_cloud_default",
     )
 
     # Task 3: Load data from GCS to BigQuery

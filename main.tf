@@ -24,8 +24,8 @@ resource "google_pubsub_subscription" "fitness_subscription" {
 
   bigquery_config {
     table            = "fit-analytics-pipeline.fitness_data.fitness_metrics"
-    write_metadata   = false  # Avoids unnecessary metadata in BigQuery
+    write_metadata   = false  
   }
 
-  ack_deadline_seconds = 60  # Default acknowledgment time
+  ack_deadline_seconds = 60
 }

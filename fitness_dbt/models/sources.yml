@@ -2,7 +2,7 @@ version: 2
 
 sources:
   - name: fitness_data
-    database: fit-analytics-pipeline  # Replace with your GCP project ID
-    schema: fitness_data  # Your dataset in BigQuery
+    database: "{{ env_var('GCP_PROJECT_ID') }}"  # Use environment variable
+    schema: fitness_data  #  dataset in BigQuery
     tables:
-      - name: fitness_metrics  # Your raw fitness data table
+      - name: fitness_metrics  #  raw fitness data table

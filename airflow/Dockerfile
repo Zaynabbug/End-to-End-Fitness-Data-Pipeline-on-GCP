@@ -2,7 +2,7 @@
 FROM apache/airflow:latest
 
 # Switch to airflow user before installing dbt
-USER airflow
+#USER airflow
 
 # Install dbt for BigQuery
 RUN pip install --no-cache-dir dbt-bigquery

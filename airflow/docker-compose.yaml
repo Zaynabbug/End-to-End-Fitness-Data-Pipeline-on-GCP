@@ -1,5 +1,6 @@
 version: '3.8'
 services:
+  # PostgreSQL for Airflow
   postgres:
     image: postgres:13
     container_name: airflow_postgres
@@ -13,8 +14,9 @@ services:
     volumes:
       - postgres_data:/var/lib/postgresql/data
 
+  # Airflow Initialization
   airflow-init:
-    build: . 
+    build: .
     container_name: airflow_init
     depends_on:
       - postgres
@@ -33,8 +35,9 @@ services:
           --email admin@example.com \
           --password airflow
 
+  # Airflow Webserver
   webserver:
-    build: . 
+    build: .
     container_name: airflow_webserver
     restart: always
     depends_on:
@@ -52,8 +55,9 @@ services:
       - "8080:8080"
     command: webserver
 
+  # Airflow Scheduler
   scheduler:
-    build: . 
+    build: .
     container_name: airflow_scheduler
     restart: always
     depends_on:
@@ -67,8 +71,41 @@ services:
       - ./plugins:/opt/airflow/plugins
       - "C:/Users/zayna/Desktop/fitness-data-pipeline:/fitness-data-pipeline"
       - "C:/Users/zayna/.dbt:/home/airflow/.dbt"
-   
     command: scheduler
+
+  # Python Script (Streaming Producer)
+  streaming-producer:
+    build:
+      context: ..  
+      dockerfile: Dockerfile.python
+    container_name: streaming_producer
+    restart: always
+    env_file:
+      - ../.env  # Load environment variables from .env file in the root directory
+    volumes:
+      - "C:/Users/zayna/Desktop/fitness-data-pipeline:/fitness-data-pipeline"
+      - "C:/Users/zayna/.gcp:/root/.gcp"  # Mount the .gcp folder
+    environment:
+      - GOOGLE_APPLICATION_CREDENTIALS=${DOCKER_GOOGLE_APPLICATION_CREDENTIALS}  # Use the Docker path
+    command: python streaming_producer.py
+
+  # dbt Transformation
+  dbt:
+    build:
+      context: ../fitness_dbt  
+      dockerfile: Dockerfile.dbt
+    container_name: dbt_transformation
+    restart: always
+    volumes:
+      - "C:/Users/zayna/Desktop/fitness-data-pipeline:/fitness-data-pipeline"
+      - "C:/Users/zayna/.dbt:/root/.dbt"  # Mount the .dbt folder containing profiles.yml
+      - "C:/Users/zayna/.gcp:/root/.gcp"  # Mount the .gcp folder containing the service account key
+    environment:
+      - DBT_PROJECT_DIR=/fitness-data-pipeline/fitness_dbt
+      - DBT_PROFILES_DIR=/root/.dbt
+      - GCP_PROJECT_ID=${GCP_PROJECT_ID}  # Use the GCP_PROJECT_ID from .env
+      - GOOGLE_APPLICATION_CREDENTIALS=${DOCKER_GOOGLE_APPLICATION_CREDENTIALS}  # Use the Docker path
+    command: dbt run
 
 volumes:
   postgres_data:
