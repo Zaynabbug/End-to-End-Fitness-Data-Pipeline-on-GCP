@@ -1,4 +1,4 @@
-# **Fitness Data Pipeline on GCP**  
+# **End-to-End Fitness Data Pipeline on GCP**  
 
 ## **Project Overview**  
 This project demonstrates an **end-to-end fitness data pipeline** on **Google Cloud Platform (GCP)**. It processes **real-time and batch fitness data**, applies transformations, and visualizes insights using **Looker Studio**. The pipeline is built using **Terraform for infrastructure automation**, **Pub/Sub for streaming ingestion**, **Airflow for batch processing**, **BigQuery for data warehousing**, **dbt for transformation**, and **Docker for containerized workflow management**.
